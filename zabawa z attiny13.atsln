@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Atmel Studio Solution File, Format Version 11.00
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "Miganie led", "Miganie led\Miganie led.cproj", "{DCE6C7E3-EE26-4D79-826B-08594B9AD897}"
+EndProject
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "watchdog_powr_off", "watchdog_powr_off\watchdog_powr_off.cproj", "{964EF4F1-EBF9-4892-B547-AD09DDD4BD34}"
+EndProject
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "test", "test\test.cproj", "{88FD3A31-A4CB-4946-B432-584E715374D6}"
+EndProject
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "Przelacznik", "Przelacznik\Przelacznik.cproj", "{E82E6B87-03D1-45CF-9F93-BF04B5179381}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|AVR = Debug|AVR
+		Release|AVR = Release|AVR
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DCE6C7E3-EE26-4D79-826B-08594B9AD897}.Debug|AVR.ActiveCfg = Debug|AVR
+		{DCE6C7E3-EE26-4D79-826B-08594B9AD897}.Debug|AVR.Build.0 = Debug|AVR
+		{DCE6C7E3-EE26-4D79-826B-08594B9AD897}.Release|AVR.ActiveCfg = Release|AVR
+		{DCE6C7E3-EE26-4D79-826B-08594B9AD897}.Release|AVR.Build.0 = Release|AVR
+		{964EF4F1-EBF9-4892-B547-AD09DDD4BD34}.Debug|AVR.ActiveCfg = Debug|AVR
+		{964EF4F1-EBF9-4892-B547-AD09DDD4BD34}.Debug|AVR.Build.0 = Debug|AVR
+		{964EF4F1-EBF9-4892-B547-AD09DDD4BD34}.Release|AVR.ActiveCfg = Release|AVR
+		{964EF4F1-EBF9-4892-B547-AD09DDD4BD34}.Release|AVR.Build.0 = Release|AVR
+		{88FD3A31-A4CB-4946-B432-584E715374D6}.Debug|AVR.ActiveCfg = Debug|AVR
+		{88FD3A31-A4CB-4946-B432-584E715374D6}.Debug|AVR.Build.0 = Debug|AVR
+		{88FD3A31-A4CB-4946-B432-584E715374D6}.Release|AVR.ActiveCfg = Release|AVR
+		{88FD3A31-A4CB-4946-B432-584E715374D6}.Release|AVR.Build.0 = Release|AVR
+		{E82E6B87-03D1-45CF-9F93-BF04B5179381}.Debug|AVR.ActiveCfg = Debug|AVR
+		{E82E6B87-03D1-45CF-9F93-BF04B5179381}.Debug|AVR.Build.0 = Debug|AVR
+		{E82E6B87-03D1-45CF-9F93-BF04B5179381}.Release|AVR.ActiveCfg = Release|AVR
+		{E82E6B87-03D1-45CF-9F93-BF04B5179381}.Release|AVR.Build.0 = Release|AVR
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
