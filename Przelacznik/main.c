@@ -13,6 +13,7 @@
 volatile short isEnabled = 0;
 volatile short isButtonPushed = 0;
 volatile int counter = 0;
+volatile short buttonCounter = 0;
 
 void inline power_ac_disable() {
 	ACSR &= ~(1<<ACIE);
@@ -20,17 +21,15 @@ void inline power_ac_disable() {
 }
 
 
-void initExtInterrupt(void)
+void inline initExtInterrupt(void)
 {//the low level of INTx generates an interrupt request
 	GIMSK |= (1<<INT0);	  //External Interrupt Request 0 Enable
 	GIFR  |= (1<<INTF0);	  //Clear External Interrupt 0 Flag	
-	//niskim poziomem, bo tylko tak da siê wybudziæ
-	//MCUCR &= ~(1<<ISC00) & ~(1<<ISC01);
 }
 
 void inline disableExtInterrupt(void)
 {
-	GIMSK &= ~(1 << INT0);
+	GIMSK &= ~(1<<INT0);
 }
 
 void inline Timer0Init()
@@ -41,11 +40,12 @@ void inline Timer0Init()
 
 void sleep()
 {
-	PORTB &= ~(1<<PB3);
-	counter = 0;
-	initExtInterrupt();
-	set_sleep_mode(SLEEP_MODE_PWR_DOWN); //ustaw tryb spania
-	sleep_mode();
+	PORTB &= ~(1<<PB3); //wylaczenie
+	counter = 0; //licznik na 0
+	isEnabled = 0;
+	initExtInterrupt(); //wlaczenie zewnetrznych przerwan
+	//set_sleep_mode(SLEEP_MODE_PWR_DOWN); //ustaw tryb spania
+	//sleep_mode();
 }
 
 
@@ -67,32 +67,38 @@ int main(void)
 	PORTB |= (1<<PB1);
 	
 	Timer0Init();
+	
 	sei();
+	//TODO: od razu sleep
+	sleep();
+	
     while (1) 
     {
-		if (isButtonPushed) {
-			PORTB |= (1<<PB4);
-		} else {
-			PORTB &= ~(1<<PB4);
-		}
 		
-		
-		if (counter > 10 && !isButtonPushed) {//TODO: zrobic na 600
+		if (counter > 50 && !isButtonPushed) {//TODO: zrobic na 600
 			sleep();
 		}
 		
 		//Je¿eli wy³¹czyliœmy i mamy pewnoœæ, ¿e button zosta³ wciœniêty
 		if (!isButtonPushed && !isEnabled) {
-			//sleep();
+			sleep();
+		}
+		
+		//wlaczamy zewnetrzne przerwanie gdy jestesmy pewni, ¿e przycisk zosta³ odcisniety	
+		if (!isButtonPushed) {
+			initExtInterrupt();
 		}
     }
 }
+
+//TODO: nie wy³¹cza siê poprawnie przyciskiem - zobaczyæ co jest nie tak - w tej chwili nie mam zielonego pojêcia
 
 ISR(INT0_vect)
 {
 	disableExtInterrupt();
 	isButtonPushed = 1;
-	if (isEnabled == 0) {
+	
+	if (!isEnabled) {
 		isEnabled = 1;
 		PORTB |= (1<<PB3);
 	} else {
@@ -103,11 +109,21 @@ ISR(INT0_vect)
 ISR(TIM0_OVF_vect) //przerwanie przepe³nienia timera
 {
 	counter++;
-	if (isButtonPushed == 1  && (PINB && (1<<PB1))) {
-		//wlaczamy zewnetrzne przerwanie gdy jestesmy pewni, ¿e przycisk zosta³ odcisniety
-		initExtInterrupt();
-		isButtonPushed = 0;
+	if (isButtonPushed && (PINB & (1<<PB1))) {
+		buttonCounter++;
+		if (buttonCounter > 2) {
+			isButtonPushed = 0;
+			buttonCounter = 0;
+		}
 	}
+	
+	if (isButtonPushed) {
+		PORTB |= (1<<PB4);
+		} else {
+		PORTB &= ~(1<<PB4);
+	}
+	
+	
 }
 
 
