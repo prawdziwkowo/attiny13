@@ -16,7 +16,7 @@
 #include <avr/power.h>
 
 //ile czekaæ na wygaszenie
-#define clockTickWait 600
+#define clockTickWait 2200
 
 volatile short isEnabled = 1;
 volatile short isButtonPushed = 0;
@@ -43,7 +43,7 @@ void inline disableExtInterrupt(void)
 
 void inline Timer0Init()
 {
-	TCCR0B |= (1<<CS02); //preskaler 256, czas oko³o 0,1 s
+	TCCR0B |= (1<<CS01) | (1<<CS00); //preskaler 64, czas oko³o 25 ms
 	TIMSK0 |= (1<<TOIE0); //odblokowanie przerwania nadmiaru timera 0
 }
 
@@ -111,7 +111,7 @@ ISR(TIM0_OVF_vect)
 
 	if (isButtonPushed && (PINB & (1<<PB1))) {
 		buttonCounter++;
-		if (buttonCounter > 2) {
+		if (buttonCounter > 8) {
 			isButtonPushed = 0;
 			buttonCounter = 0;
 			if (disableAfterUnPush) { 
